@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "291893583484",
+    "firebase_url": "https://iot-doorbell1-default-rtdb.firebaseio.com",
+    "project_id": "iot-doorbell1",
+    "storage_bucket": "iot-doorbell1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291893583484:android:24c2f239965359af58f3f9",
+        "android_client_info": {
+          "package_name": "com.example.iot_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0nO2lQDZjIg1FYIMNddUuEwWkuD0jaXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
