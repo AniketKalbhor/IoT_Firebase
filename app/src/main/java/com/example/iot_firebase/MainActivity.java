@@ -1,10 +1,5 @@
 package com.example.iot_firebase;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +8,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -72,6 +70,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Door Unlocked",Toast.LENGTH_SHORT).show();
                     myRef.child("LOCK").setValue(10);
                 }
+            }
+        });
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cam;
+                cam = new Intent(MainActivity.this, Cam.class);
+                startActivity(cam);
             }
         });
     }
