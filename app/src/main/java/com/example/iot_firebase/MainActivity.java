@@ -45,12 +45,30 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         status.setText("Unlocked");
                     }
-
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+        myRef.child("takeNewPhoto").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int flag = snapshot.getValue(int.class);
+                    if(flag == 11){
+                        status.setText("Locked");
+                    }
+                    else{
+                        status.setText("Unlocked");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 //        if (Lock.isChecked()) {
