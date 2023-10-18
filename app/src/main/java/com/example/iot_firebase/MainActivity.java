@@ -1,5 +1,8 @@
 package com.example.iot_firebase;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +37,39 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef;
         db = FirebaseDatabase.getInstance();
         myRef = db.getReference().child("status");
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification notif = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notif = new Notification.Builder(this)
+                    .setContentText("Motion Alert!")
+                    .setSubText("PIR sensor has detected a motion")
+                    .setChannelId("Alerts")
+                    .build();
+            nm.createNotificationChannel(new NotificationChannel("Alerts", "PIR", NotificationManager.IMPORTANCE_DEFAULT));
+        }
+        else {
+            notif = new Notification.Builder(this)
+                    .setContentText("Motion Alert!")
+                    .setSubText("PIR sensor has detected a motion")
+                    .build();
+        }
+        Notification notifManual = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notifManual = new Notification.Builder(this)
+                    .setContentText("Motion Alert!")
+                    .setSubText("Manual switch has been pressed")
+                    .setChannelId("Alerts")
+                    .build();
+            nm.createNotificationChannel(new NotificationChannel("Alerts", "Manual", NotificationManager.IMPORTANCE_DEFAULT));
+        }
+        else {
+            notifManual = new Notification.Builder(this)
+                    .setContentText("Motion Alert!")
+                    .setSubText("Manual switch has been pressed")
+                    .build();
+
+        }
+
         myRef.child("LOCK").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -47,20 +83,40 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+        Notification finalNotif = notif;
+        myRef.child("PIR").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int flag = snapshot.getValue(int.class);
+                    if(flag == 1){
+//                        finalNotif.notify();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Notification finalNotifManual = notifManual;
         myRef.child("takeNewPhoto").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     int flag = snapshot.getValue(int.class);
-                    if(flag == 11){
+                    if(flag == 1){
                         status.setText("Locked");
+//                        Lock.setChecked(true);
+//                        finalNotifManual.notify();
                     }
                     else{
+//                        Lock.setChecked(false);
                         status.setText("Unlocked");
                     }
                 }
@@ -71,11 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        if (Lock.isChecked()) {
-//            Toast.makeText(getApplicationContext(),"Door Locked",Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(getApplicationContext(),"Door Unlocked",Toast.LENGTH_SHORT).show();
-//        }
+
         Lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
