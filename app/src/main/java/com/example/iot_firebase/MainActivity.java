@@ -53,22 +53,6 @@ public class MainActivity extends AppCompatActivity {
                     .setSubText("PIR sensor has detected a motion")
                     .build();
         }
-        Notification notifManual = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notifManual = new Notification.Builder(this)
-                    .setContentText("Motion Alert!")
-                    .setSubText("Manual switch has been pressed")
-                    .setChannelId("Alerts")
-                    .build();
-            nm.createNotificationChannel(new NotificationChannel("Alerts", "Manual", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        else {
-            notifManual = new Notification.Builder(this)
-                    .setContentText("Motion Alert!")
-                    .setSubText("Manual switch has been pressed")
-                    .build();
-
-        }
 
         myRef.child("LOCK").addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     int flag = snapshot.getValue(int.class);
                     if(flag == 1){
 //                        finalNotif.notify();
+                        Toast.makeText(getApplicationContext(),"Motion Detected",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -104,30 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        Notification finalNotifManual = notifManual;
-        myRef.child("takeNewPhoto").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    int flag = snapshot.getValue(int.class);
-                    if(flag == 1){
-                        status.setText("Locked");
-//                        Lock.setChecked(true);
-//                        finalNotifManual.notify();
-                    }
-                    else{
-//                        Lock.setChecked(false);
-                        status.setText("Unlocked");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
         Lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
