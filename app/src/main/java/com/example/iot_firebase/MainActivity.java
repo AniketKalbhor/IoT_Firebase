@@ -1,8 +1,8 @@
 package com.example.iot_firebase;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,22 +38,56 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference myRef;
         db = FirebaseDatabase.getInstance();
         myRef = db.getReference().child("status");
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification notif = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notif = new Notification.Builder(this)
-                    .setContentText("Motion Alert!")
-                    .setSubText("PIR sensor has detected a motion")
-                    .setChannelId("Alerts")
-                    .build();
-            nm.createNotificationChannel(new NotificationChannel("Alerts", "PIR", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        else {
-            notif = new Notification.Builder(this)
-                    .setContentText("Motion Alert!")
-                    .setSubText("PIR sensor has detected a motion")
-                    .build();
-        }
+        Intent notify = new Intent(getApplicationContext(), MainActivity.class);
+        notify.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pi = PendingIntent.getActivity(this, 100, notify, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.doorbell)
+                .setChannelId("Alerts")
+                .setContentText("Motion Alert!")
+                .setContentIntent(pi)
+                .setSubText("PIR sensor has detected a motion")
+                .setChannelId("Alerts")
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        Notification notif = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//            notif = new Notification.Builder(this)
+//                    .setContentText("Motion Alert!")
+//                    .setSmallIcon(R.drawable.doorbell)
+//                    .setChannelId("Alerts")
+//                    .setSubText("PIR sensor has detected a motion")
+//                    .build();
+//            nm.createNotificationChannel(new NotificationChannel("Alerts", "Motion", NotificationManager.IMPORTANCE_DEFAULT));
+//        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            notif = new Notification.Builder(this)
+//                    .setContentText("Motion Alert!")
+//                    .setSmallIcon(R.drawable.doorbell)
+//                    .setSubText("PIR sensor has detected a motion")
+//                    .build();
+//        }
+//        Notification finalNotif = notif;
+        myRef.child("PIR").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    int flag = snapshot.getValue(int.class);
+                    if(flag == 1){
+//                        nm.notify(1, finalNotif);
+                        nm.notify(100, nbuilder.build());
+                        Toast.makeText(getApplicationContext(),"Motion Detected",Toast.LENGTH_SHORT).show();
+                        myRef.child("PIR").setValue(0);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         myRef.child("LOCK").addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,23 +107,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Notification finalNotif = notif;
-        myRef.child("PIR").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    int flag = snapshot.getValue(int.class);
-                    if(flag == 1){
-//                        finalNotif.notify();
-                        Toast.makeText(getApplicationContext(),"Motion Detected",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         Lock.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
