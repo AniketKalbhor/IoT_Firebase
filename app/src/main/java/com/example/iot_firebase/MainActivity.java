@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     int flag = snapshot.getValue(int.class);
-                    if(flag == 11){
+                    if(flag == 1){
                         status.setText("Locked");
                     }
                     else{
@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
                 // if switch is checked or not.
                 if (isChecked) {
                     Toast.makeText(getApplicationContext(),"Door Locked",Toast.LENGTH_SHORT).show();
-                    myRef.child("LOCK").setValue(11);
+                    myRef.child("LOCK").setValue(1);
                 } else {
                     Toast.makeText(getApplicationContext(),"Door Unlocked",Toast.LENGTH_SHORT).show();
-                    myRef.child("LOCK").setValue(10);
+                    myRef.child("LOCK").setValue(0);
                 }
             }
         });
