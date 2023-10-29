@@ -35,7 +35,7 @@ public class Cam extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         myRef = db.getReference().child("status");
         load.setVisibility(View.VISIBLE);
-        String imgStr = "https://firebasestorage.googleapis.com/v0/b/iot-doorbell1.appspot.com/o/data%2Fphoto.jpg?alt=media&token=e9b7edd7-a411-468d-9e61-eb4796484869";
+        String imgStr = "https://firebasestorage.googleapis.com/v0/b/smart-doorbell-d2b71.appspot.com/o/data%2Fphoto.jpg?alt=media&token=61ad0a9a-6954-45bd-8bbf-22a8cfa113ee";
         Picasso.get().load(imgStr).into(cam);
         load.setVisibility(View.INVISIBLE);
 
@@ -47,7 +47,7 @@ public class Cam extends AppCompatActivity {
                 myRef.child("requestphoto").setValue(1);
                 load.setVisibility(View.INVISIBLE);Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
                 view.startAnimation(animation);
-                String imgStr = "https://firebasestorage.googleapis.com/v0/b/iot-doorbell1.appspot.com/o/data%2Fphoto.jpg?alt=media&token=e9b7edd7-a411-468d-9e61-eb4796484869";
+                String imgStr = "https://firebasestorage.googleapis.com/v0/b/smart-doorbell-d2b71.appspot.com/o/data%2Fphoto.jpg?alt=media&token=61ad0a9a-6954-45bd-8bbf-22a8cfa113ee";
                 Picasso.get().load(imgStr).into(cam);
                 load.setVisibility(View.INVISIBLE);
             }
@@ -58,7 +58,7 @@ public class Cam extends AppCompatActivity {
                 load.setVisibility(View.VISIBLE);
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in);
                 view.startAnimation(animation);
-                String imgStr = "https://firebasestorage.googleapis.com/v0/b/iot-doorbell1.appspot.com/o/data%2Fphoto.jpg?alt=media&token=e9b7edd7-a411-468d-9e61-eb4796484869";
+                String imgStr = "https://firebasestorage.googleapis.com/v0/b/smart-doorbell-d2b71.appspot.com/o/data%2Fphoto.jpg?alt=media&token=61ad0a9a-6954-45bd-8bbf-22a8cfa113ee";
                 Picasso.get().load(imgStr).into(cam);
                 load.setVisibility(View.INVISIBLE);
             }
