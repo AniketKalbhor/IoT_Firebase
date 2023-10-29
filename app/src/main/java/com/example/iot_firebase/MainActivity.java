@@ -2,8 +2,10 @@ package com.example.iot_firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -40,11 +42,14 @@ public class MainActivity extends AppCompatActivity {
         myRef = db.getReference().child("status");
         Intent notify = new Intent(getApplicationContext(), MainActivity.class);
         notify.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pi = PendingIntent.getActivity(this, 100, notify, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(this, 100, notify, PendingIntent.FLAG_IMMUTABLE);
+        Uri sound = Uri. parse (ContentResolver. SCHEME_ANDROID_RESOURCE + "://" + getPackageName() + "/raw/rickroll.mp3") ;
         NotificationCompat.Builder nbuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.doorbell)
                 .setChannelId("Alerts")
+                .setSound(sound)
                 .setContentText("Motion Alert!")
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                 .setContentIntent(pi)
                 .setSubText("PIR sensor has detected a motion")
                 .setChannelId("Alerts")
