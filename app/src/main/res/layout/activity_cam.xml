@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.941" />
 
     <androidx.cardview.widget.CardView
-        style="@style/CardView.Dark"
+        style="@style/CardView"
         android:layout_width="365dp"
         android:layout_height="467dp"
         app:cardCornerRadius="30dp"
@@ -48,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="297dp"
-                android:layout_height="396dp"
+                android:layout_width="303dp"
+                android:layout_height="390dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
