@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "319571707400",
-    "firebase_url": "https://smart-doorbell-d2b71-default-rtdb.firebaseio.com",
-    "project_id": "smart-doorbell-d2b71",
-    "storage_bucket": "smart-doorbell-d2b71.appspot.com"
+    "project_number": "561068415236",
+    "firebase_url": "https://iot-firebase-cc75c-default-rtdb.firebaseio.com",
+    "project_id": "iot-firebase-cc75c",
+    "storage_bucket": "iot-firebase-cc75c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:319571707400:android:6e045a66fd29191f90f3bd",
+        "mobilesdk_app_id": "1:561068415236:android:3012ada84f3efd008d1851",
         "android_client_info": {
           "package_name": "com.example.iot_firebase"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyB_lbBkXw7oXbm-siEdNWP0llYaEeKJm5c"
+          "current_key": "AIzaSyAdFmIDjCMSW7H61BW1eDas_yLGTf54M1k"
         }
       ],
       "services": {

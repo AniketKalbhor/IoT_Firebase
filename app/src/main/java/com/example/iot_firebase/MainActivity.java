@@ -24,11 +24,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     Switch Lock;
     Button next;
     TextView status;
+    String timestamp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
                         nm.notify(100, nbuilder.build());
                         Toast.makeText(getApplicationContext(),"Motion Detected",Toast.LENGTH_SHORT).show();
                         myRef.child("PIR").setValue(0);
+                        Calendar calendar = Calendar.getInstance();
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+                        timestamp = simpleDateFormat.format(calendar.getTime());
                     }
                 }
             }
@@ -131,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent cam;
                 cam = new Intent(MainActivity.this, Cam.class);
+                cam.putExtra("stamp",timestamp);
                 startActivity(cam);
             }
         });
